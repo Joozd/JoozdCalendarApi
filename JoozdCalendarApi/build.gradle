@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 14
+        minSdk 16
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,8 +28,13 @@ android {
         jvmTarget = '1.8'
     }
     namespace 'nl.joozd.joozdcalendarapi'
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     api 'androidx.annotation:annotation:1.5.0'
+    testImplementation 'junit:junit:4.13.2'
 }
