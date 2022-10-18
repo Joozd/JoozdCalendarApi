@@ -10,11 +10,10 @@ import nl.joozd.joozdcalendarapi.helpers.mergeArrays
  * Extract events from devices calendar.
  * Example:
  * <pre>
- *  val extractor = EventsExtractor.Builder().apply{
+ *  val extractor = EventsExtractor.Builder{
  *      fromCalendar(calendar)
  *      endBeforeEpochMilli(latestEpochMilli)
- *  }.build()
- *   .extract(context)
+ *  }.extract(context)
  *  </pre>
  */
 class EventsExtractor private constructor(private val clause: String, private val args: Array<String>) {
@@ -165,6 +164,13 @@ class EventsExtractor private constructor(private val clause: String, private va
         private fun add(selectionClause: String, selectionArgs: Collection<String>){
             clauses.add(selectionClause)
             args.add(selectionArgs.toTypedArray())
+        }
+
+        companion object{
+            operator fun invoke(block: Builder.() -> Unit): EventsExtractor =
+                Builder().apply{
+                    block()
+                }.build()
         }
     }
 
