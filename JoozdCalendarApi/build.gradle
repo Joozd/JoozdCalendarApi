@@ -36,5 +36,10 @@ android {
 
 dependencies {
     api 'androidx.annotation:annotation:1.5.0'
+
+    //kotlin Coroutines
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
     testImplementation 'junit:junit:4.13.2'
 }
