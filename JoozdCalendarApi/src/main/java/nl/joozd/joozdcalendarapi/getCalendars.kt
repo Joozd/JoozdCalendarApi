@@ -6,16 +6,18 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.CalendarContract
 import androidx.annotation.RequiresPermission
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @RequiresPermission(Manifest.permission.READ_CALENDAR)
-fun Context.getCalendars(): List<CalendarDescriptor> {
+suspend fun Context.getCalendars(): List<CalendarDescriptor> = withContext (Dispatchers.IO){
     val results = ArrayList<CalendarDescriptor>()
     buildCalendarCursor()?.use { cur ->
         while (cur.moveToNext()) {
             results.add(cur.getCalendarDescriptor())
         }
     }
-    return results
+    results
 }
 
 private fun Context.buildCalendarCursor(): Cursor?{
