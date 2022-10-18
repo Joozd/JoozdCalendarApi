@@ -11,7 +11,7 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun testBuilder(){
-        val e = EventsExtractor.Builder{
+        val e = EventsExtractor{
             endAfterEpochMilli(1000)
         }
         assert(e is EventsExtractor)

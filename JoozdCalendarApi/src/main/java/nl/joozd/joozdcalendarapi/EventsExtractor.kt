@@ -10,7 +10,7 @@ import nl.joozd.joozdcalendarapi.helpers.mergeArrays
  * Extract events from devices calendar.
  * Example:
  * <pre>
- *  val extractor = EventsExtractor.Builder{
+ *  val extractor = EventsExtractor{
  *      fromCalendar(calendar)
  *      endBeforeEpochMilli(latestEpochMilli)
  *  }.extract(context)
@@ -176,6 +176,11 @@ class EventsExtractor private constructor(private val clause: String, private va
 
 
     companion object{
+        operator fun invoke(block: Builder.() -> Unit): EventsExtractor =
+            Builder().apply{
+                block()
+            }.build()
+
         private const val CALENDAR_ID_CLAUSE = "(${CalendarContract.Events.CALENDAR_ID} = ?)"
         private const val REQUIRE_ID_CLAUSE = "(${CalendarContract.Events._ID} = ?)"
         private const val START_BEFORE_CLAUSE = "(${CalendarContract.Events.DTSTART} < ?)"
