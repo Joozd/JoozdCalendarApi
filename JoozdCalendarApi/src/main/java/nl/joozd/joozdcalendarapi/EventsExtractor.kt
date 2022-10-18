@@ -48,6 +48,7 @@ class EventsExtractor private constructor(private val clause: String, private va
     }
 
 
+    @Suppress("unused")
     class Builder{
         private val clauses = ArrayList<String>()
         private val args = ArrayList<Array<String>>()
@@ -101,6 +102,16 @@ class EventsExtractor private constructor(private val clause: String, private va
         }
 
         /**
+         * Only get events starting at exactly [epochMilli]
+         * @param epochMilli Time in milliseconds since UTC Epoch.
+         */
+        fun startAtEpochMilli(epochMilli: Long){
+            val selectionClause = START_AT_CLAUSE
+            val selectionArgs = listOf(epochMilli.toString())
+            add(selectionClause, selectionArgs)
+        }
+
+        /**
          * Only get events starting before [epochMilli]
          * @param epochMilli Cutoff time in milliseconds since UTC Epoch.
          * @param inclusive If true, will return events starting on [epochMilli]
@@ -123,6 +134,16 @@ class EventsExtractor private constructor(private val clause: String, private va
         }
 
         /**
+         * Only get events ending at exactly [epochMilli]
+         * @param epochMilli Time in milliseconds since UTC Epoch.
+         */
+        fun endAtEpochMilli(epochMilli: Long){
+            val selectionClause = END_AT_CLAUSE
+            val selectionArgs = listOf(epochMilli.toString())
+            add(selectionClause, selectionArgs)
+        }
+
+        /**
          * Only get events that start in [range]
          * @param range: Range of times in milliseconds since UTC Epoch
          * @param inclusive: If true, will return events starting on start or end of [range]
@@ -131,7 +152,6 @@ class EventsExtractor private constructor(private val clause: String, private va
             startAfterEpochMilli(range.start, inclusive)
             startBeforeEpochMilli(range.endInclusive, inclusive)
         }
-
 
         /**
          * Builds the [EventsExtractor]
@@ -156,9 +176,11 @@ class EventsExtractor private constructor(private val clause: String, private va
         private const val START_BEFORE_OR_AT_CLAUSE = "(${CalendarContract.Events.DTSTART} <= ?)"
         private const val START_AFTER_CLAUSE = "(${CalendarContract.Events.DTSTART} > ?)"
         private const val START_AT_OR_AFTER_CLAUSE = "(${CalendarContract.Events.DTSTART} >= ?)"
+        private const val START_AT_CLAUSE = "(${CalendarContract.Events.DTSTART} = ?)"
         private const val END_BEFORE_CLAUSE = "(${CalendarContract.Events.DTEND} < ?)"
         private const val END_BEFORE_OR_AT_CLAUSE = "(${CalendarContract.Events.DTEND} <= ?)"
         private const val END_AFTER_CLAUSE = "(${CalendarContract.Events.DTEND} > ?)"
+        private const val END_AT_CLAUSE = "(${CalendarContract.Events.DTEND} = ?)"
         private const val END_AT_OR_AFTER_CLAUSE = "(${CalendarContract.Events.DTEND} >= ?)"
     }
 }
